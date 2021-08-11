@@ -34,16 +34,13 @@ def to_GCM(img):
 
 
 def to_numpy(img):
-    ret_img = np.zeros((img.shape[0], img.shape[1], 3))
-    # grab the image dimensions
+
     h = img.shape[0]
     w = img.shape[1]
+    ret_img = np.zeros((h,w,3))
 
-    # loop over the image, pixel by pixel
     for y in range(0, h):
         for x in range(0, w):
-            # threshold the pixel
-            # print(decimalToGCM(img[y, x]))
             ret_img[y, x] = np.array(decimalToGCM(img[y, x]))
 
     # return the thresholded image
