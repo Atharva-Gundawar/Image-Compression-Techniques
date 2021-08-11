@@ -1,5 +1,6 @@
 # The idea here is to convert a n dimentional chanel image to a single dimentional image
-# for example if one RGB pixel has the value of (250,30,46)
+# for example if one RGB pixel has the value of (250,30,46) will
+# get converted to 250*256*256 + 30*256 + 46  = 16391726
 
 import time
 import cv2
@@ -9,28 +10,53 @@ import numpy
 from numpy import ndarray
 
 
-def decimalToGCM(num : int) -> list : 
+def decimalToGCM(num: int) -> list:
+    """Convert decimal numbers to GCM representation
+
+    Args:
+        num (int): input number
+
+    Returns:
+        list: GCM representation 
+    """
     out_num = []
 
     def get_quotients(num):
         if num >= 1:
             out_num.append(num % 256)
             get_quotients(num // 256)
-    
+
     get_quotients(num)
     len_out_num = len(out_num)
-    
+
     if len_out_num < 3:
-        out_num = np.pad(out_num, (0,3-len_out_num), 'constant',constant_values=(0,0))
-    
+        out_num = np.pad(out_num, (0, 3-len_out_num),
+                         'constant', constant_values=(0, 0))
+
     return out_num[::-1]
 
 
-def to_GCM(img : ndarray) -> ndarray : 
+def to_GCM(img: ndarray) -> ndarray:
+    """Converts a GCM image array to decimal representation.
+
+    Args:
+        img (ndarray): input image
+
+    Returns:
+        ndarray: GCM representation
+    """
     return np.einsum('k,ijk->ij', np.array([256*256, 256, 1]), img)
 
 
-def to_numpy(img : ndarray) -> ndarray : 
+def to_numpy(img: ndarray) -> ndarray:
+    """Converts GCM representation to decimal representation
+
+    Args:
+        img (ndarray): GCM representation
+
+    Returns:
+        ndarray: image array
+    """
 
     h = img.shape[0]
     w = img.shape[1]
