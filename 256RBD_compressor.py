@@ -49,8 +49,16 @@ def to_numpy(img):
     # return the thresholded image
     return ret_img
 
-
+# Read an image from filesystem
 img = cv2.imread(r"images\image1.jpg")
+
+# Convert to 256RDB form
 new_img = np.einsum('k,ijk->ij', np.array([256*256, 256, 1]), img)
+
+# Convert back to numpy array
 reversedimg = to_numpy(new_img)
-print(reversedimg-img)
+
+# Finding errors in compresion and extraction
+(unique, counts) = numpy.unique(reversedimg-img, return_counts=True)
+frequencies = numpy.asarray((unique, counts)).T
+print(frequencies)
