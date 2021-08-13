@@ -2,12 +2,13 @@
 # for example if one RGB pixel has the value of (250,30,46) will
 # get converted to 250*256*256 + 30*256 + 46  = 16391726
 
-import time
-import cv2
-import numpy as np
-import sys
-import numpy
 from numpy import ndarray
+import numpy as np
+import pickle
+import numpy
+import time
+import sys
+import cv2
 
 
 def decimalToGCM(num: int) -> list:
@@ -21,7 +22,12 @@ def decimalToGCM(num: int) -> list:
     """
     out_num = []
 
-    def get_quotients(num):
+    def get_quotients(num : int) -> None:
+        """Returns quotients 
+
+        Args:
+            num (int): input number to be converted to GCM representation
+        """
         if num >= 1:
             out_num.append(num % 256)
             get_quotients(num // 256)
