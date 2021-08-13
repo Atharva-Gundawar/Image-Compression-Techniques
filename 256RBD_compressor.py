@@ -75,12 +75,39 @@ def to_numpy(img: ndarray) -> ndarray:
     # return the thresholded image
     return ret_img
 
+def save_to_file(gcm_list : ndarray, filepath : str) -> None:
+    """Saves decimal representation to file
+
+    Args:
+        gcm_list (ndarray): input GCM numpy list
+        filepath (str): file path to save in 
+    """
+    with open(filepath, "wb") as f:
+        pickle.dump(gcm_list, f)
+
+    print("Saved to :",filepath)
+
+def read_from_file(filepath : str) -> ndarray:
+    """Retruns decimal representation from saved file
+
+    Args:
+        filepath (str): [description]
+
+    Returns:
+        ndarray: [description]
+    """
+
+    with open(filepath, 'rb') as f:
+        return pickle.load(f)
 
 # Read an image from filesystem
 img = cv2.imread(r"images\image1.jpg")
 
 # Convert to 256RDB form
 new_img = np.einsum('k,ijk->ij', np.array([256*256, 256, 1]), img)
+
+# Save to file:
+save_to_file(new_img,r'C:\Users\Atharva\Desktop\Projects\Image-Compression-Techniques\images\out.pkl')
 
 # Convert back to numpy array
 reversedimg = to_numpy(new_img)
@@ -89,3 +116,5 @@ reversedimg = to_numpy(new_img)
 (unique, counts) = numpy.unique(reversedimg-img, return_counts=True)
 frequencies = numpy.asarray((unique, counts)).T
 print(frequencies)
+
+
