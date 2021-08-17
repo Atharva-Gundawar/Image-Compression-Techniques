@@ -26,7 +26,7 @@ for index in range(1, 2300):
 dataset = np.array(dataset)
 print(dataset.shape)
 
-# Defifing the model 
+# Defifing the model
 
 # Input layer
 input_img = Input(shape=dataset[0].shape)
@@ -36,7 +36,7 @@ x = Conv2D(16, (7, 7), activation='relu', padding='same')(input_img)
 x = MaxPooling2D((2, 2), padding='same')(x)
 x = Conv2D(10, (3, 3), activation='relu', padding='same')(x)
 
-# Encoder Model  
+# Encoder Model
 encoded = MaxPooling2D((2, 2), padding='same')(x)
 
 
@@ -45,18 +45,18 @@ x = UpSampling2D((2, 2))(x)
 x = Conv2D(16, (7, 7), activation='relu', padding='same')(x)
 x = UpSampling2D((2, 2))(x)
 
-# Dencoder Model  
+# Dencoder Model
 decoded = Conv2D(3, (7, 7), activation='sigmoid', padding='same')(x)
 
 # Autoencoder Model
 autoencoder = Model(input_img, decoded)
 
-# Compiling the model 
+# Compiling the model
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 print(autoencoder.summary())
 
 
-# Training 
+# Training
 autoencoder.fit(dataset, dataset,
                 epochs=1000,
                 batch_size=2,
