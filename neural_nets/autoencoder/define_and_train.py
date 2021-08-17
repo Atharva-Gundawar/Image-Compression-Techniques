@@ -55,3 +55,18 @@ autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 print(autoencoder.summary())
 
+
+# Training 
+autoencoder.fit(dataset, dataset,
+                epochs=1000,
+                batch_size=2,
+                shuffle=True)
+
+# Evaluation
+predicted_imgs = autoencoder.predict(dataset)
+for i in range(predicted_imgs.shape[0]):
+    plt.figure()
+    img_uint = (255*predicted_imgs[i]).astype(np.uint8)
+    plt.imshow(predicted_imgs[i])
+    imageio.imsave(cwd / 'results' / f'result-{i+1}.png', img_uint)
+plt.show()
